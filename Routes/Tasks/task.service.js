@@ -11,15 +11,62 @@ function createTask(id, body, callback) {
 
     myTask.save((err, task) => {
         if (err) {
-            callback(err)
+            callback(err);
         }
         else {
-            console.log("Saving");
-            console.log(task);
             callback(null, task);
         }
     });
 
 }
 
-export { createTask };
+function getMyTasks(id, callback) {
+    Task.find({ belongs: id }, callback)
+}
+
+function deleteMyTask(id, taskid, callback) {
+    Task.findById(taskid, (err, task) => {
+        if (err) {
+            callback(err)
+        }
+        else {
+
+            if (task.belongs == id) {
+                Task.deleteOne(taskid, callback);
+            }
+            else {
+                callback("Not found")
+            }
+        }
+    })
+}
+
+//FIXME: Make sure that you are looping through fields that we are exposing to user
+function updateTask(id, taskid, options, callback) {
+    let updateableFields = ['originates', 'task', 'done']; //TODO: Originates should be in the list of user task ids
+    let changed = false;
+    Task.findById(taskid, (err, task) => {
+        if (err) {
+            callback(err);
+        }
+        else {
+            if (task.belongs == id) {
+                Object.keys(options).forEach((key) => {
+                    if (updateableFields.includes(key)) {
+                        task[key] = options[key];
+                        changed = true;
+                    }
+                });
+
+                if (changed) {
+                    task.save(callback);
+                }
+            }
+            else {
+                callback("Not found")
+            }
+        }
+    })
+}
+
+export { createTask, getMyTasks, deleteMyTask, updateTask };

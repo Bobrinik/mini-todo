@@ -19,9 +19,14 @@ function storePassword(userData, callback) {
 
 // We need to make sure that by this point userData is sterile
 function verifyPassword(userData, callback) {
+    console.log("================================");    
+    console.log(userData);
     User.findOne({ email: userData.email }, (err, user) => {
         if (err) {
             callback(err);
+        }
+        else if(!user){
+            callback("User is not found");
         }
         else {
             user.isPasswordCorrect(userData.password, callback, user.id); // FIXME: It's an ugly way to pass id

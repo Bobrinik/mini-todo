@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "security-check": "nsp check",
-    "prestart": "npm-run-all --parallel security-check",
     "start": "babel-node ./buildScripts/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,7 +20,7 @@
   "homepage": "https://github.com/Bobrinik/simpleTODO#readme",
   "dependencies": {
     "babel-cli": "6.16.0",
-    "babel-core": "6.17.0",
+    "babel-core": "^6.17.0",
     "babel-loader": "6.2.5",
     "babel-preset-latest": "6.16.0",
     "babel-register": "6.16.3",

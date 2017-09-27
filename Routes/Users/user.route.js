@@ -27,7 +27,7 @@ router.route('/auth')
     .post((req, res) => {
         verifyPassword(req.body, function (err, result, id) {
             if (err) {
-                res.status(400).json('fail');
+                res.status(400).json({message: err});
             }
             else {
                 if (result) {

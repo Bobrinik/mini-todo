@@ -37,9 +37,14 @@ passport.use(strategy);
 
 const app = express();
 app.use(passport.initialize());
+app.use(bodyParser.json({extended: true}));
 
-app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use('/api', routes);
+app.use('/', express.static('public'));
+
+
 /*
 TODO:
 - Setup routes (use notes from Codeschool)

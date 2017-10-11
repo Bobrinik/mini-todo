@@ -7,6 +7,9 @@ on the transperent canvas
 (function () {
     var app = angular.module('app', []);
     app.controller('loginCtrl', function ($scope, $http) {
+        $scope.openedCreationMenue = false;
+        $scope.active = false;
+        $scope.token = false;
         $scope.update = function (user) {
             console.log(user);
             $http.post(
@@ -14,11 +17,30 @@ on the transperent canvas
                 { email: user.email, password: user.password }
             ).then(function successCallback(response) {
                 console.log(response);
-                //TODO: We need to hifr login page
+                $scope.token = response.data.token;
+                loadTasks();
             }, function errorCallback(response) {
                 console.log(response.data);
                 alert("Something Went Wrong");
             });
         }
+
+        function loadTasks() {
+            $http.get(
+                '/api/tasks/',
+                { headers: { 'Authorization': "Bearer " + $scope.token } }
+            ).then(function successCallback(response) {
+                console.log(response);
+                $scope.tasks = response.data.task;
+            }, function errorCallback(response) {
+                console.log(response.data);
+                alert("Something Went Wrong in pulling tasks for the user");
+            });
+        }
+
+        $scope.openCreationMenue = function () {
+            $scope.openedCreationMenue = !$scope.openedCreationMenue;
+        };
+
     });
 })();

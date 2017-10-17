@@ -33,11 +33,11 @@
                                 <input class="form-control" type="text" value="Task name" id="example-text-input">
                                 <label for="exampleSelect2">Select parent tasks</label>
                                 <select multiple class="form-control" id="exampleSelect2" ng-change="change()" ng-model="precedent" ng-options="task.task for task in tasks"></select>
-                                <button type="button" class="btn btn-info"   ng-submit="createNewTask()">Submit</button>
+                                <button type="button" class="btn btn-warning"   ng-submit="updateTask()">Update</button>
                                 <button type="button" class="btn btn-danger" ng-submit="deleteTask()">Delete</button>
                             </div>
                         </li>
-                        
+
                         <li class="list-group-item" ng-class="{'active':active}" ng-click="openCreationMenue(); active=!active">Make a new task </li>
                         <li class="list-group-item" ng-show="openedCreationMenue">
                             <div class="form-group row">

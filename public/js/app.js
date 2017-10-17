@@ -42,5 +42,8 @@ on the transperent canvas
             $scope.openedCreationMenue = !$scope.openedCreationMenue;
         };
 
+        $scope.updateTask = function(){
+            console.log($scope.precedent);
+        };
     });
 })();

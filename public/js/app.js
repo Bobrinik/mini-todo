@@ -10,11 +10,11 @@ on the transperent canvas
         $scope.openedCreationMenue = false;
         $scope.active = false;
         $scope.token = false;
-        $scope.update = function (user) {
-            console.log(user);
+
+        $scope.login = function () {
             $http.post(
                 '/api/users/auth',
-                { email: user.email, password: user.password }
+                { email: $scope.email, password: $scope.password }
             ).then(function successCallback(response) {
                 console.log(response);
                 $scope.token = response.data.token;
@@ -23,7 +23,7 @@ on the transperent canvas
                 console.log(response.data);
                 alert("Something Went Wrong");
             });
-        }
+        };
 
         function loadTasks() {
             $http.get(
@@ -42,7 +42,7 @@ on the transperent canvas
             $scope.openedCreationMenue = !$scope.openedCreationMenue;
         };
 
-        $scope.updateTask = function(){
+        $scope.updateTask = function () {
             console.log($scope.precedent);
         };
     });

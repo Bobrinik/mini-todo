@@ -2,64 +2,27 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/nice_login.css">
-    <link rel="stylesheet" href="./css/task.css">
+    <link rel="stylesheet" type="text/css" href="./css/login.css">
     <title>Graphical Todo</title>
+
 </head>
 
 <body ng-app="app">
-    <div id="fullscreen_bg" class="fullscreen_bg" />
 
-    <div class="container" ng-controller="loginCtrl">
-
-        <form class="form-signin" ng-hide="token">
-            <h1 class="form-signin-heading text-muted">Sign In</h1>
-            <input type="email" class="form-control" ng-model="user.email" placeholder="Email address" required="" autofocus="">
-            <input type="password" class="form-control" ng-model="user.password" placeholder="Password" required="">
-            <input class="btn btn-lg btn-primary btn-block" type="submit" ng-click="update(user)" value="Log in" />
+    <div class="login" ng-controller="loginCtrl">
+        <h2>min-todo</h2>
+        <form novalidate>
+            <input class="login_input" type="email" ng-model="email" required/>
+            <input class="login_input" type="password" ng-model="password" required/>
         </form>
-
-        <div class="container tasks" ng-show="token">
-            <div class="row justify-content-md-center">
-                <div class="col col-lg-2">
-                </div>
-                <div class="col-12 col-md-auto">
-                    <ul class="list-group">
-
-                        <li class="list-group-item" ng-click="active=!active" ng-repeat="task in tasks">{{task.task}}
-
-                            <div class="form-group row" ng-show="active">
-                                <input class="form-control" type="text" value="Task name" id="example-text-input">
-                                <label for="exampleSelect2">Select parent tasks</label>
-                                <select multiple class="form-control" id="exampleSelect2" ng-change="change()" ng-model="precedent" ng-options="task.task for task in tasks"></select>
-                                <button type="button" class="btn btn-warning"   ng-submit="updateTask()">Update</button>
-                                <button type="button" class="btn btn-danger" ng-submit="deleteTask()">Delete</button>
-                            </div>
-                        </li>
-
-                        <li class="list-group-item" ng-class="{'active':active}" ng-click="openCreationMenue(); active=!active">Make a new task </li>
-                        <li class="list-group-item" ng-show="openedCreationMenue">
-                            <div class="form-group row">
-                                <input class="form-control" type="text" value="Task name" id="example-text-input">
-                                <label for="exampleSelect2">Select parent tasks</label>
-                                <select multiple class="form-control" id="exampleSelect2" ng-change="change()" ng-model="precedent" ng-options="task.task for task in tasks"></select>
-                                <button type="button" class="btn btn-info" ng-submit="createNewTask()">Submit</button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col col-lg-2">
-                </div>
+        <div>
+            <div class="login_actions">
+                <button ng-click="login()">login</button>
+                <button ng-click="register()">register</button>
             </div>
         </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
-    <script src="./js/bootstrap.js"></script>
-    <script src="./js/app.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+        <script src="./js/app.js"></script>
 </body>
 
 </html>

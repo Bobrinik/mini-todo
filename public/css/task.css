@@ -1,3 +1,29 @@
+.center {
+    padding-top: 3em;
+    width: 20em;
+    margin: 0 auto 0 auto;
+}
+
+.tasks ul li{
+    margin-bottom: 1em;
+    font-family: sans-serif;
+    list-style-type: none;
+}
+
+.tasks ul li:last-child{
+    margin-bottom: 0;
+    font-family: sans-serif;
+    list-style-type: none;
+}
+
+.tasks ul li:hover{
+    border-bottom: solid;
+}
+
 .tasks {
-    padding-top: 100px;
+    display: none;
+}
+
+.tasks input {
+    margin-right: 1em; 
 }

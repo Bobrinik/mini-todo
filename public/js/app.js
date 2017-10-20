@@ -5,38 +5,48 @@ on the transperent canvas
 */
 
 (function () {
+    var loggedIn = new Event('login_success', { data: "hello" });
+    var token;
     var app = angular.module('app', []);
+    
     app.controller('loginCtrl', function ($scope, $http) {
-        $scope.openedCreationMenue = false;
-        $scope.active = false;
-        $scope.token = false;
-
         $scope.login = function () {
             $http.post(
                 '/api/users/auth',
                 { email: $scope.email, password: $scope.password }
             ).then(function successCallback(response) {
-                console.log(response);
-                $scope.token = response.data.token;
-                loadTasks();
+                var myLoginForm = document.getElementById("login");
+                myLoginForm.style.display = "none";
+                token = response.data.token;
+                document.dispatchEvent(loggedIn);
             }, function errorCallback(response) {
                 console.log(response.data);
                 alert("Something Went Wrong");
             });
         };
+    });
 
-        function loadTasks() {
+    app.controller('taskCtrl', function ($scope, $http) {
+        document.addEventListener('login_success', function (e) {
+            var tasks = document.getElementsByClassName("tasks");
+            console.log(tasks);
+            tasks[0].style.display = "unset";
+
+            
             $http.get(
                 '/api/tasks/',
-                { headers: { 'Authorization': "Bearer " + $scope.token } }
+                { headers: { 'Authorization': "Bearer " + token } }
             ).then(function successCallback(response) {
+                console.log("Here");
                 console.log(response);
                 $scope.tasks = response.data.task;
+
             }, function errorCallback(response) {
                 console.log(response.data);
                 alert("Something Went Wrong in pulling tasks for the user");
             });
-        }
+
+        }, false);
 
         $scope.openCreationMenue = function () {
             $scope.openedCreationMenue = !$scope.openedCreationMenue;
@@ -46,4 +56,5 @@ on the transperent canvas
             console.log($scope.precedent);
         };
     });
+
 })();

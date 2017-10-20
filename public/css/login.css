@@ -3,7 +3,7 @@ body, li, div, button {
     padding: 0;
 }
 
-h2{
+h2 {
     text-align: center;
     font-family: sans-serif;
 }
@@ -21,6 +21,9 @@ button {
     width: 100%;
 }
 
+input{
+    margin: 0 auto 0 auto;
+}
 input:hover, button:hover {
     padding: 0.5em 0 0.5em 0;
 }

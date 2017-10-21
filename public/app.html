@@ -28,10 +28,24 @@
         <div class="tasks" ng-controller="taskCtrl">
             <ul>
                 <li ng-repeat="task in tasks"><input type="checkbox">{{task.task}}</li>
-                <li><button>new task</button></li>
+                <li><button ng-click="createTask()">new task</button></li>
             </ul>
         </div>
     </div>
+
+    <!--We are using this to dimmout surrounding when modal is active-->
+    <div id="dimmer">
+    </div>
+
+    <div id="createTaskModal" ng-controller="modalCtrl as modal">
+        <input type="text" value="task name">
+        <select name="multipleSelect" id="multipleSelect" ng-show="{{modal.tasks}}" ng-model="data.multipleSelect" multiple>
+            <option ng-repeat="task in modal.tasks" value="{{task.id}}">{{task.task}}</option>
+        </select>
+        <button>create</button>
+        <button ng-click="cancel()">cancel</button>
+    </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
     <script src="./js/app.js"></script>

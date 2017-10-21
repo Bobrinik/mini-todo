@@ -6,9 +6,12 @@ on the transperent canvas
 
 (function () {
     var loggedIn = new Event('login_success', { data: "hello" });
+    var openCreateModal = new Event('create_task');
     var token;
+    var tasks;
+
     var app = angular.module('app', []);
-    
+
     app.controller('loginCtrl', function ($scope, $http) {
         $scope.login = function () {
             $http.post(
@@ -18,6 +21,7 @@ on the transperent canvas
                 var myLoginForm = document.getElementById("login");
                 myLoginForm.style.display = "none";
                 token = response.data.token;
+
                 document.dispatchEvent(loggedIn);
             }, function errorCallback(response) {
                 console.log(response.data);
@@ -32,14 +36,13 @@ on the transperent canvas
             console.log(tasks);
             tasks[0].style.display = "unset";
 
-            
             $http.get(
                 '/api/tasks/',
                 { headers: { 'Authorization': "Bearer " + token } }
             ).then(function successCallback(response) {
-                console.log("Here");
                 console.log(response);
                 $scope.tasks = response.data.task;
+                tasks = response.data.task;
 
             }, function errorCallback(response) {
                 console.log(response.data);
@@ -48,13 +51,30 @@ on the transperent canvas
 
         }, false);
 
-        $scope.openCreationMenue = function () {
-            $scope.openedCreationMenue = !$scope.openedCreationMenue;
+        $scope.createTask = function () {
+            document.dispatchEvent(openCreateModal); // we are telling to show create task modal
         };
 
         $scope.updateTask = function () {
             console.log($scope.precedent);
         };
+    });
+
+    app.controller('modalCtrl', function ($scope) {
+        var createTaskModal = document.getElementById("createTaskModal");
+        var dimmer = document.getElementById("dimmer");
+
+        this.tasks = tasks;
+        
+        $scope.cancel = function () {
+            createTaskModal.style.display = "none"; // we are going to show our modal now
+            dimmer.style.display = "none";
+        };
+
+        document.addEventListener('create_task', function (e) {
+            createTaskModal.style.display = "unset"; // we are going to show our modal now
+            dimmer.style.display = "unset";
+        });
     });
 
 })();

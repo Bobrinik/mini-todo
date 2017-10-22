@@ -24,9 +24,7 @@ button {
 input{
     margin: 0 auto 0 auto;
 }
-input:hover, button:hover {
-    padding: 0.5em 0 0.5em 0;
-}
+
 
 button:first-child{
     margin-top: 1em;

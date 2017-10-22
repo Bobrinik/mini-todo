@@ -46,7 +46,7 @@
 }
 
 #createTaskModal select {
-    display: block;
+    text-align: center;
 }
 
 #dimmer {

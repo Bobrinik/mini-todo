@@ -37,12 +37,13 @@
     <div id="dimmer">
     </div>
 
-    <div id="createTaskModal" ng-controller="modalCtrl as modal">
+    <div id="createTaskModal" ng-controller="modalCtrl">
         <input type="text" value="task name">
-        <select name="multipleSelect" id="multipleSelect" ng-show="{{modal.tasks}}" ng-model="data.multipleSelect" multiple>
-            <option ng-repeat="task in modal.tasks" value="{{task.id}}">{{task.task}}</option>
-        </select>
-        <button>create</button>
+        <label for="mySelect">select preceading task:</label>
+        <select name="ngvalueselect" ng-model="preceading_tasks" multiple>
+            <option ng-repeat="task in tasks" value={{task._id}}>{{task.task}}</option>
+         </select>
+        <button ng-click="createNewTask()">create</button>
         <button ng-click="cancel()">cancel</button>
     </div>
 

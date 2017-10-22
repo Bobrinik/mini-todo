@@ -32,15 +32,15 @@ on the transperent canvas
 
     app.controller('taskCtrl', function ($scope, $http) {
         document.addEventListener('login_success', function (e) {
-            var tasks = document.getElementsByClassName("tasks");
-            console.log(tasks);
-            tasks[0].style.display = "unset";
+            var tasksView = document.getElementsByClassName("tasks");
+            console.log(tasksView);
+            tasksView[0].style.display = "unset";
 
             $http.get(
                 '/api/tasks/',
                 { headers: { 'Authorization': "Bearer " + token } }
             ).then(function successCallback(response) {
-                console.log(response);
+                console.log(response.data.task);
                 $scope.tasks = response.data.task;
                 tasks = response.data.task;
 
@@ -63,18 +63,21 @@ on the transperent canvas
     app.controller('modalCtrl', function ($scope) {
         var createTaskModal = document.getElementById("createTaskModal");
         var dimmer = document.getElementById("dimmer");
-
-        this.tasks = tasks;
-        
         $scope.cancel = function () {
             createTaskModal.style.display = "none"; // we are going to show our modal now
             dimmer.style.display = "none";
         };
 
         document.addEventListener('create_task', function (e) {
+            console.log(tasks);
+            $scope.tasks = tasks;
             createTaskModal.style.display = "unset"; // we are going to show our modal now
             dimmer.style.display = "unset";
         });
+
+        $scope.createNewTask = function(){
+            console.log($scope.preceading_tasks);
+        }
     });
 
 })();

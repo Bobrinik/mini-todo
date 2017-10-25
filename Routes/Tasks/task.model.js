@@ -4,10 +4,10 @@ mongoose.connect('mongodb://localhost/Todo');
 
 
 var taskSchema = mongoose.Schema({
-    task: String,
+    name: String,
     done: Boolean,
-    belongs: mongoose.Schema.Types.ObjectId,
-    originates: [mongoose.Schema.Types.ObjectId]
+    owner: mongoose.Schema.Types.ObjectId,
+    parents: [mongoose.Schema.Types.ObjectId]
 });
 
 module.exports = mongoose.model('Task', taskSchema);

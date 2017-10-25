@@ -36,7 +36,8 @@ router.route('/auth')
                     res.status(200).json({ message: 'ok', token: token });
                 }
                 else {
-                    res.status(401).json('wrong');
+                    console.log(err);
+                    res.status(401);
                 }
             }
         });

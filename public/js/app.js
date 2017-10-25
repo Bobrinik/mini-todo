@@ -12,42 +12,38 @@ on the transperent canvas
 
     var app = angular.module('app', []);
 
-    app.controller('loginCtrl', function ($scope, $http) {
+    app.controller('loginCtrl', ['$scope', 'taskHandler', function ($scope, taskHandler) {
         $scope.login = function () {
-            $http.post(
-                '/api/users/auth',
-                { email: $scope.email, password: $scope.password }
-            ).then(function successCallback(response) {
-                var myLoginForm = document.getElementById("login");
-                myLoginForm.style.display = "none";
-                token = response.data.token;
-
-                document.dispatchEvent(loggedIn);
-            }, function errorCallback(response) {
-                console.log(response.data);
-                alert("Something Went Wrong");
-            });
+            taskHandler.login($scope.email, $scope.password)
+                .then(function (response) {
+                    var myLoginForm = document.getElementById("login");
+                    myLoginForm.style.display = "none";
+                    token = response.data.token;
+                    document.dispatchEvent(loggedIn);
+                }, function (e) {
+                    console.log(e);
+                    alert("Something went wrong check console!");
+                });
         };
-    });
+    }]);
 
-    app.controller('taskCtrl', function ($scope, $http) {
+    app.controller('taskCtrl', function ($scope, taskHandler) {
         document.addEventListener('login_success', function (e) {
+
             var tasksView = document.getElementsByClassName("tasks");
             console.log(tasksView);
             tasksView[0].style.display = "unset";
 
-            $http.get(
-                '/api/tasks/',
-                { headers: { 'Authorization': "Bearer " + token } }
-            ).then(function successCallback(response) {
-                console.log(response.data.task);
-                $scope.tasks = response.data.task;
-                tasks = response.data.task;
-
-            }, function errorCallback(response) {
-                console.log(response.data);
-                alert("Something Went Wrong in pulling tasks for the user");
-            });
+            taskHandler.getTasks(token)
+                .then(function (response) {
+                    console.log(response.data.task);
+                    $scope.tasks = response.data.task;
+                    tasks = response.data.task;
+                    console.log(tasks);
+                }, function (response) {
+                    console.log(response.data);
+                    alert("Something Went Wrong in pulling tasks for the user");
+                });
 
         }, false);
 
@@ -56,11 +52,11 @@ on the transperent canvas
         };
 
         $scope.updateTask = function () {
-            console.log($scope.precedent);
+            console.log($scope.parents);
         };
     });
 
-    app.controller('modalCtrl', function ($scope) {
+    app.controller('modalCtrl', function ($scope, taskHandler) {
         var createTaskModal = document.getElementById("createTaskModal");
         var dimmer = document.getElementById("dimmer");
         $scope.cancel = function () {
@@ -69,14 +65,16 @@ on the transperent canvas
         };
 
         document.addEventListener('create_task', function (e) {
-            console.log(tasks);
             $scope.tasks = tasks;
             createTaskModal.style.display = "unset"; // we are going to show our modal now
             dimmer.style.display = "unset";
         });
 
-        $scope.createNewTask = function(){
-            console.log($scope.preceading_tasks);
+        $scope.createNewTask = function () {
+            taskHandler.createNewTask(token, {
+                name: $scope.task_name,
+                parents: $scope.parent_tasks
+            });
         }
     });
 

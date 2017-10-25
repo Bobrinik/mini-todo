@@ -3,10 +3,10 @@ import Task from "./task.model";
 
 function createTask(id, body, callback) {
     var myTask = new Task({
-        task: body.task,
+        name: body.name,
         done: false,
-        belongs: id,
-        originates: body.originates
+        owner: id,
+        parents: body.originates
     });
 
     myTask.save((err, task) => {
@@ -21,7 +21,7 @@ function createTask(id, body, callback) {
 }
 
 function getMyTasks(id, callback) {
-    Task.find({ belongs: id }, callback)
+    Task.find({ owner: id }, callback)
 }
 
 function deleteMyTask(id, taskid, callback) {
@@ -43,7 +43,7 @@ function deleteMyTask(id, taskid, callback) {
 
 //FIXME: Make sure that you are looping through fields that we are exposing to user
 function updateTask(id, taskid, options, callback) {
-    let updateableFields = ['originates', 'task', 'done']; //TODO: Originates should be in the list of user task ids
+    let updateableFields = ['parents', 'name', 'done']; //TODO: Originates should be in the list of user task ids
     let changed = false;
     Task.findById(taskid, (err, task) => {
         if (err) {

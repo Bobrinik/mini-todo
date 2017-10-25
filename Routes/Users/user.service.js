@@ -18,9 +18,7 @@ function storePassword(userData, callback) {
 }
 
 // We need to make sure that by this point userData is sterile
-function verifyPassword(userData, callback) {
-    console.log("================================");    
-    console.log(userData);
+function verifyPassword(userData, callback) {   
     User.findOne({ email: userData.email }, (err, user) => {
         if (err) {
             callback(err);

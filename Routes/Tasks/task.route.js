@@ -9,14 +9,13 @@ import * as service from './task.service';
 - How are we going to make connections betweel all of these tasks?
 	- We are going to loop through all of the tasks and associate them
 */
-
-
 const router = express.Router();
 
 // User should be registered to access this route
 router.route('/')
     //POST: api/task- we are creating a task
     .post(passport.authenticate('jwt', { session: false }), (req, res) => {
+        console.log("Reached");
         service.createTask(req.user.id, req.body, (err, task) => {
             if (err) {
                 res.status(400).json({ message: 'error' });

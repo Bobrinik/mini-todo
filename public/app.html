@@ -27,7 +27,7 @@
     <div class="center">
         <div class="tasks" ng-controller="taskCtrl">
             <ul>
-                <li ng-repeat="task in tasks"><input type="checkbox">{{task.task}}</li>
+                <li ng-repeat="task in tasks"><input type="checkbox">{{task.name}}</li>
                 <li><button ng-click="createTask()">new task</button></li>
             </ul>
         </div>
@@ -38,18 +38,19 @@
     </div>
 
     <div id="createTaskModal" ng-controller="modalCtrl">
-        <input type="text" value="task name">
+        <input type="text" ng-model="task_name" value="task name">
         <label for="mySelect">select preceading task:</label>
-        <select name="ngvalueselect" ng-model="preceading_tasks" multiple>
-            <option ng-repeat="task in tasks" value={{task._id}}>{{task.task}}</option>
+        <select name="ngvalueselect" ng-model="parent_tasks" multiple>
+            <option ng-repeat="task in tasks" value={{task._id}}>{{task.name}}</option>
          </select>
         <button ng-click="createNewTask()">create</button>
         <button ng-click="cancel()">cancel</button>
     </div>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script> 
     <script src="./js/app.js"></script>
+    <script src="./js/services/back.js"></script>   
 </body>
 
 </html>

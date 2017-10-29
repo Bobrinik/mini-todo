@@ -65,6 +65,7 @@ router.route('/:taskId')
     })
     //DELETE: api/task- we are deleting a task
     .delete(passport.authenticate('jwt', { session: false }), (req, res) => {
+        console.log(req.params.taskId);
         service.deleteMyTask(req.user.id, req.params.taskId, (err, data) => {
             if (err) {
                 res.status(400).send({ message: err });

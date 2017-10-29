@@ -66,17 +66,18 @@ on the transperent canvas
     app.controller('modalCtrl', function ($scope, taskHandler, tasksStorage) {
         var createTaskModal = document.getElementById("createTaskModal");
         var dimmer = document.getElementById("dimmer");
-        $scope.cancel = function () {
+
+        function hideModal() {
             createTaskModal.style.display = "none"; // we are going to show our modal now
             dimmer.style.display = "none";
-        };
+        }
 
         document.addEventListener('create_task', function (e) {
             $scope.modal_type = e.detail.type;
-            if( e.detail.type == "update_task"){
+            if (e.detail.type == "update_task") {
                 $scope.task_to_modify = e.detail.task;
             }
-            else{
+            else {
                 $scope.task_to_modify = {};
                 $scope.task_to_modify.name = "enter new task name";
             }
@@ -87,8 +88,8 @@ on the transperent canvas
 
         $scope.createNewTask = function () {
             taskHandler.createNewTask(token, {
-                name: $scope.task_name,
-                parents: $scope.parent_tasks
+                name: $scope.task_to_modify.name,
+                parents: $scope.task_to_modify.parent_tasks
             });
 
             // we are updating task list
@@ -101,12 +102,41 @@ on the transperent canvas
                     alert("Something Went Wrong in pulling tasks for the user");
                 });
         }
+
+
+        $scope.cancel = function () {
+            hideModal();
+        };
+
         /**
          * TODO: Need to make sure that parent tasks that this element already have are underlined in select
          */
         $scope.updateTask = function () {
             console.log($scope.task_name);
             console.log($scope.parent_tasks);
+            hideModal();
+        };
+
+        $scope.deleteTask = function () {
+            taskHandler.deleteTask(token, $scope.task_to_modify._id).then(
+                function (res) {
+                    //we update tasks in the list
+                    taskHandler.getTasks(token).then(
+                        function (res) {
+                            tasksStorage.setTasks(res.data.task);
+                        },
+                        function (err) {
+                            alert(err);
+                        }
+                    );
+                    tasksStorage.setTasks(tasks);
+                    hideModal();
+                },
+                function (err) {
+                    console.log(err);
+                    alert(err);
+                }
+            );
         };
     });
 })();

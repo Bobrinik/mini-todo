@@ -26,12 +26,13 @@ function getMyTasks(id, callback) {
 
 function deleteMyTask(id, taskid, callback) {
     Task.findById(taskid, (err, task) => {
+
         if (err) {
             callback(err)
         }
         else {
 
-            if (task.belongs == id) {
+            if (task.owner == id) {
                 Task.deleteOne(taskid, callback);
             }
             else {

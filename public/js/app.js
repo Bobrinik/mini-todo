@@ -6,7 +6,6 @@ on the transperent canvas
 
 (function () {
     var loggedIn = new Event('login_success', { data: "hello" });
-    var openCreateModal = new Event('create_task');
     var token;
     var tasks;
 
@@ -27,19 +26,20 @@ on the transperent canvas
         };
     }]);
 
-    app.controller('taskCtrl', function ($scope, taskHandler) {
+    app.controller('taskCtrl', function ($scope, taskHandler, tasksStorage) {
         document.addEventListener('login_success', function (e) {
 
             var tasksView = document.getElementsByClassName("tasks");
             console.log(tasksView);
             tasksView[0].style.display = "unset";
 
+            $scope.$watch(function () { return tasksStorage.getTasks(); }, function (newValue, oldValue) {
+                if (newValue !== oldValue) $scope.tasks = newValue;
+            });
+
             taskHandler.getTasks(token)
                 .then(function (response) {
-                    console.log(response.data.task);
-                    $scope.tasks = response.data.task;
-                    tasks = response.data.task;
-                    console.log(tasks);
+                    tasksStorage.setTasks(response.data.task);
                 }, function (response) {
                     console.log(response.data);
                     alert("Something Went Wrong in pulling tasks for the user");
@@ -47,16 +47,23 @@ on the transperent canvas
 
         }, false);
 
-        $scope.createTask = function () {
-            document.dispatchEvent(openCreateModal); // we are telling to show create task modal
+        $scope.createTask = function (type, task) {
+            console.log(type);
+            if (type === "update_task") {
+                console.log(task);
+                var openCreateModal = new CustomEvent('create_task', { detail: { type: type, task: task } });
+                document.dispatchEvent(openCreateModal); // we are telling to show create task modal
+            }
+            else {
+                var openCreateModal = new CustomEvent('create_task', { detail: { type: type } });
+                document.dispatchEvent(openCreateModal); // we are telling to show create task modal   
+            }
         };
 
-        $scope.updateTask = function () {
-            console.log($scope.parents);
-        };
+
     });
 
-    app.controller('modalCtrl', function ($scope, taskHandler) {
+    app.controller('modalCtrl', function ($scope, taskHandler, tasksStorage) {
         var createTaskModal = document.getElementById("createTaskModal");
         var dimmer = document.getElementById("dimmer");
         $scope.cancel = function () {
@@ -65,7 +72,15 @@ on the transperent canvas
         };
 
         document.addEventListener('create_task', function (e) {
-            $scope.tasks = tasks;
+            $scope.modal_type = e.detail.type;
+            if( e.detail.type == "update_task"){
+                $scope.task_to_modify = e.detail.task;
+            }
+            else{
+                $scope.task_to_modify = {};
+                $scope.task_to_modify.name = "enter new task name";
+            }
+            $scope.tasks = tasksStorage.getTasks();
             createTaskModal.style.display = "unset"; // we are going to show our modal now
             dimmer.style.display = "unset";
         });
@@ -75,7 +90,23 @@ on the transperent canvas
                 name: $scope.task_name,
                 parents: $scope.parent_tasks
             });
-        }
-    });
 
+            // we are updating task list
+            taskHandler.getTasks(token)
+                .then(function (response) {
+                    tasksStorage.setTasks(response.data.task);
+                    $scope.cancel();
+                }, function (response) {
+                    console.log(response.data);
+                    alert("Something Went Wrong in pulling tasks for the user");
+                });
+        }
+        /**
+         * TODO: Need to make sure that parent tasks that this element already have are underlined in select
+         */
+        $scope.updateTask = function () {
+            console.log($scope.task_name);
+            console.log($scope.parent_tasks);
+        };
+    });
 })();

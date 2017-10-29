@@ -27,8 +27,11 @@
     <div class="center">
         <div class="tasks" ng-controller="taskCtrl">
             <ul>
-                <li ng-repeat="task in tasks"><input type="checkbox">{{task.name}}</li>
-                <li><button ng-click="createTask()">new task</button></li>
+                <li ng-repeat="task in tasks" ng-click="createTask('update_task', task)">
+                    <input type="checkbox">{{task.name}}</li>
+                <li>
+                    <button ng-click="createTask('new_task')">new task</button>
+                </li>
             </ul>
         </div>
     </div>
@@ -37,20 +40,23 @@
     <div id="dimmer">
     </div>
 
+    <!--Rename createTaskModal to taskModal-->
     <div id="createTaskModal" ng-controller="modalCtrl">
-        <input type="text" ng-model="task_name" value="task name">
+        <input type="text" ng-model="task_to_modify.name" > <!--I need to take information from task-->
         <label for="mySelect">select preceading task:</label>
         <select name="ngvalueselect" ng-model="parent_tasks" multiple>
-            <option ng-repeat="task in tasks" value={{task._id}}>{{task.name}}</option>
-         </select>
-        <button ng-click="createNewTask()">create</button>
+            <option ng-repeat="task in tasks" ng-if="task._id !== task_to_modify._id" value={{task._id}}>{{task.name}}</option>
+        </select>
+        <button ng-click="updateTask()"    ng-show="modal_type == 'update_task'">update</button>
+        <button ng-click="deleteTask()"    ng-show="modal_type == 'update_task'">delete</button>
+        <button ng-click="createNewTask()" ng-show="modal_type == 'new_task'">create</button>
         <button ng-click="cancel()">cancel</button>
     </div>
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
     <script src="./js/app.js"></script>
-    <script src="./js/services/back.js"></script>   
+    <script src="./js/services/back.js"></script>
+    <script src="./js/services/tasks.js"></script>
 </body>
 
 </html>

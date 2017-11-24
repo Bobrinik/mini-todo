@@ -3,7 +3,7 @@ body, li, div, button, input {
     padding: 0;
 }
 
-h2 {
+.login h2 {
     text-align: center;
     font-family: sans-serif;
 }
@@ -15,18 +15,18 @@ h2 {
 }
 
 
-button {
+.login button {
     display: block;
     text-decoration: none;
     width: 100%;
 }
 
-input{
+.login input{
     margin: 0 auto 0 auto;
 }
 
 
-button:first-child{
+.login button:first-child{
     margin-top: 1em;
 }
 

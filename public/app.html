@@ -12,23 +12,25 @@
 
     <div class="login" id="login" ng-controller="loginCtrl">
         <h2>min-todo</h2>
-         <input class="login_input" type="email" ng-model="email" required/>
-         <input class="login_input" type="password" ng-model="password" required/>
+        <input class="login_input" type="email" ng-model="email" required/>
+        <input class="login_input" type="password" ng-model="password" required/>
 
 
         <div class="login_actions">
             <button ng-click="login()">login</button>
             <button ng-click="register()">register</button>
         </div>
-        
+
     </div>
 
 
     <div class="center">
         <div class="tasks" ng-controller="taskCtrl">
             <ul>
-                <li ng-repeat="task in tasks" ng-click="createTask('update_task', task)">
-                    <input type="checkbox">{{task.name}}</li>
+                <li ng-repeat="task in tasks">
+                    <input type="checkbox" />
+                    <span ng-click="createTask('update_task', task)">{{task.name}}</span>
+                </li>
                 <li>
                     <button ng-click="createTask('new_task')">new task</button>
                 </li>
@@ -42,13 +44,14 @@
 
     <!--Rename createTaskModal to taskModal-->
     <div id="createTaskModal" ng-controller="modalCtrl">
-        <input type="text" ng-model="task_to_modify.name" > <!--I need to take information from task-->
+        <input type="text" ng-model="task_to_modify.name">
+        <!--I need to take information from task-->
         <label for="mySelect">select preceading task:</label>
         <select name="ngvalueselect" ng-model="parent_tasks" multiple>
             <option ng-repeat="task in tasks" ng-if="task._id !== task_to_modify._id" value={{task._id}}>{{task.name}}</option>
         </select>
-        <button ng-click="updateTask()"    ng-show="modal_type == 'update_task'">update</button>
-        <button ng-click="deleteTask()"    ng-show="modal_type == 'update_task'">delete</button>
+        <button ng-click="updateTask()" ng-show="modal_type == 'update_task'">update</button>
+        <button ng-click="deleteTask()" ng-show="modal_type == 'update_task'">delete</button>
         <button ng-click="createNewTask()" ng-show="modal_type == 'new_task'">create</button>
         <button ng-click="cancel()">cancel</button>
     </div>

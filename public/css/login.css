@@ -1,4 +1,4 @@
-body, li, div, button {
+body, li, div, button, input {
     margin: 0;
     padding: 0;
 }
@@ -8,9 +8,9 @@ h2 {
     font-family: sans-serif;
 }
 
-.login {
+#login {
     margin: auto;
-    width: 12em;
+    width: 16em;
     padding-top: 13em;
 }
 

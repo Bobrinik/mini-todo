@@ -2,7 +2,7 @@
 - This is a personal project that was built as a way to practice building applications by using Html, css, js, angularjs, and Nodejs
 
 # Requirements
-## What a typical todo application needs?
+## What does a typical todo application needs?
 - Keep a list of tasks
 - Mark tasks as complete or not
 

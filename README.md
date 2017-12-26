@@ -21,3 +21,14 @@ $ npm install
 $ sudo service mongod start #it's a mongodb server
 $ npm start
 ```
+
+## What I learnt
+- Start designing the UI first and the design your backend
+- Design core functionality in the UI first and the design registration and other stuff
+
+
+
+## TODO
+[X] Move tasks list to the left
+[X] Add graph to the right of the task list
+[] I need to connect tasks tohether

@@ -9,11 +9,13 @@ on the transperent canvas
     var token;
     var tasks;
 
-    var app = angular.module('app', []);
 
+    var app = angular.module('app', []);
+    console.log("Working");
     app.controller('loginCtrl', ['$scope', 'taskHandler', function ($scope, taskHandler) {
-        $scope.login = function () {
-            taskHandler.login($scope.email, $scope.password)
+        $scope.login = function (email, password) { // there should be no argumenrs here
+           // taskHandler.login($scope.email, $scope.password)
+            taskHandler.login(email, password)
                 .then(function (response) {
                     var myLoginForm = document.getElementById("login");
                     myLoginForm.style.display = "none";
@@ -24,6 +26,8 @@ on the transperent canvas
                     alert("Something went wrong check console!");
                 });
         };
+        console.log("trying to");
+        $scope.login("admin@mail.com", "123456");
     }]);
 
     app.controller('taskCtrl', function ($scope, taskHandler, tasksStorage) {

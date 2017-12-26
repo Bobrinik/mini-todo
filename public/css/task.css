@@ -1,7 +1,10 @@
-.center {
-    padding-top: 3em;
+.left {
+    display: block;
+    float: left;
+    border-right: 1px;
+    border-right-style: dashed;
     width: 20em;
-    margin: 0 auto 0 auto;
+    height: 100%;
 }
 
 .tasks ul li{

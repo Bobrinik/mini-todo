@@ -1,6 +1,10 @@
 body, li, div, button, input {
     margin: 0;
     padding: 0;
+    height: 100%;
+}
+html {
+    height: 100%;
 }
 
 .login h2 {

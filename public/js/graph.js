@@ -6,7 +6,9 @@ var w = viewport_w - tasks_width - 20;
 var h = document.body.clientHeight;
 
 var labelDistance = 0;
-var Graph = function () {
+
+
+
     // here we setup the stage for vizualization
     var stage = d3.select("#myGraph")
         .append("svg:svg")
@@ -182,4 +184,3 @@ var Graph = function () {
         anchorLink.call(updateLink);
 
     });
-}

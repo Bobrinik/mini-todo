@@ -32,3 +32,7 @@ $ npm start
 [X] Move tasks list to the left
 [X] Add graph to the right of the task list
 [] I need to connect tasks tohether
+
+## Graph
+- For some reason I can't see edges being drawn
+- When later, I'm going to be doing linking. I should create a map where, I'm going to map ids of the tasks to their position inside of the array so that I can do linking pretty fast.

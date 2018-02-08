@@ -35,6 +35,12 @@
     "passport-jwt": "^3.0.0",
     "webpack": "^3.5.6"
   },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    }
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",

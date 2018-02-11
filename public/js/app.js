@@ -11,10 +11,9 @@ on the transperent canvas
 
 
     var app = angular.module('app', []);
-    console.log("Working");
     app.controller('loginCtrl', ['$scope', 'taskHandler', function ($scope, taskHandler) {
         $scope.login = function (email, password) { // there should be no argumenrs here
-           // taskHandler.login($scope.email, $scope.password)
+            // taskHandler.login($scope.email, $scope.password)
             taskHandler.login(email, password)
                 .then(function (response) {
                     var myLoginForm = document.getElementById("login");
@@ -34,16 +33,28 @@ on the transperent canvas
         document.addEventListener('login_success', function (e) {
 
             var tasksView = document.getElementsByClassName("tasks");
-            console.log(tasksView);
             tasksView[0].style.display = "unset";
 
-            $scope.$watch(function () { return tasksStorage.getTasks(); }, function (newValue, oldValue) {
-                if (newValue !== oldValue) $scope.tasks = newValue;
-            });
-
+            $scope.$watch(
+                function () {
+                    return tasksStorage.getTasks();
+                },
+                function (newValue, oldValue) {
+                    if (newValue !== oldValue) $scope.tasks = newValue;
+                });
+            // links.push({ target: 0, source: 1 });
             taskHandler.getTasks(token)
                 .then(function (response) {
                     tasksStorage.setTasks(response.data.task);
+                    console.log(response.data.task);
+                    response.data.task.forEach(task => {
+                        // we are adding the task and also link it to other tasks
+                        myGraph.add({ id: task._id, label: task.name }, function(links){
+                            task.parents.forEach(parent => {
+                                links.push({ target: parent, source: task._id });
+                            });
+                        });
+                    });
                 }, function (response) {
                     console.log(response.data);
                     alert("Something Went Wrong in pulling tasks for the user");

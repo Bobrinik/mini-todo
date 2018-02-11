@@ -31,7 +31,11 @@ $ npm start
 ## TODO
 [X] Move tasks list to the left
 [X] Add graph to the right of the task list
-[] I need to connect tasks tohether
+[] I need to connect tasks together
+    - I need to figure out how to connect tasks together
+[] Remove tasks
+[] Make the app somewhat beautiful
+[] Profit out of the basic layout
 
 ## Graph
 - For some reason I can't see edges being drawn

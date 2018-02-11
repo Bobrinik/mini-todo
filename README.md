@@ -26,8 +26,6 @@ $ npm start
 - Start designing the UI first and the design your backend
 - Design core functionality in the UI first and the design registration and other stuff
 
-
-
 ## TODO
 [X] Move tasks list to the left
 [X] Add graph to the right of the task list

@@ -25,16 +25,19 @@ on the transperent canvas
                     alert("Something went wrong check console!");
                 });
         };
+        // the part below should be eventually removed
         console.log("trying to");
         $scope.login("admin@mail.com", "123456");
     }]);
 
     app.controller('taskCtrl', function ($scope, taskHandler, tasksStorage) {
+        
         document.addEventListener('login_success', function (e) {
 
             var tasksView = document.getElementsByClassName("tasks");
             tasksView[0].style.display = "unset";
 
+            // we are updating tasks view if the background tasks have changed
             $scope.$watch(
                 function () {
                     return tasksStorage.getTasks();
@@ -42,11 +45,12 @@ on the transperent canvas
                 function (newValue, oldValue) {
                     if (newValue !== oldValue) $scope.tasks = newValue;
                 });
+
             // links.push({ target: 0, source: 1 });
             taskHandler.getTasks(token)
                 .then(function (response) {
                     tasksStorage.setTasks(response.data.task);
-                    console.log(response.data.task);
+                    
                     response.data.task.forEach(task => {
                         // we are adding the task and also link it to other tasks
                         myGraph.add({ id: task._id, label: task.name }, function(links){
@@ -63,32 +67,25 @@ on the transperent canvas
         }, false);
 
         $scope.createTask = function (type, task) {
-            console.log(type);
-            if (type === "update_task") {
-                console.log(task);
-                var openCreateModal = new CustomEvent('create_task', { detail: { type: type, task: task } });
-                document.dispatchEvent(openCreateModal); // we are telling to show create task modal
-            }
-            else {
-                var openCreateModal = new CustomEvent('create_task', { detail: { type: type } });
-                document.dispatchEvent(openCreateModal); // we are telling to show create task modal   
-            }
+            let eventPayload = (task) ? { type: type, task: task } : { type: type };
+            document.dispatchEvent(new CustomEvent('modal_event', { detail: eventPayload }));
         };
-
-
     });
 
+    /// This controller is only responsible for showing tasks
+    /// Ideally we should pass in the data that it needs to display and it should not be doing any computations
     app.controller('modalCtrl', function ($scope, taskHandler, tasksStorage) {
-        var createTaskModal = document.getElementById("createTaskModal");
-        var dimmer = document.getElementById("dimmer");
+        let createTaskModal = document.getElementById("createTaskModal");
+        let dimmer = document.getElementById("dimmer");
 
         function hideModal() {
             createTaskModal.style.display = "none"; // we are going to show our modal now
             dimmer.style.display = "none";
         }
 
-        document.addEventListener('create_task', function (e) {
+        document.addEventListener('modal_event', function (e) {
             $scope.modal_type = e.detail.type;
+            
             if (e.detail.type == "update_task") {
                 $scope.task_to_modify = e.detail.task;
             }
@@ -96,7 +93,8 @@ on the transperent canvas
                 $scope.task_to_modify = {};
                 $scope.task_to_modify.name = "enter new task name";
             }
-            $scope.tasks = tasksStorage.getTasks();
+
+            $scope.tasks = tasksStorage.getTasks(); // TODO: We need to update tasks periodically
             createTaskModal.style.display = "unset"; // we are going to show our modal now
             dimmer.style.display = "unset";
         });
@@ -118,17 +116,18 @@ on the transperent canvas
                 });
         }
 
-
         $scope.cancel = function () {
             hideModal();
         };
 
         /**
-         * TODO: Need to make sure that parent tasks that this element already have are underlined in select
+         * TODO: Need to make sure that parent tasks that this element already hasnpm start are underlined in select
          */
         $scope.updateTask = function () {
-            console.log($scope.task_name);
-            console.log($scope.parent_tasks);
+            let task = $scope.task_to_modify;
+            taskHandler.updateTask(token, task._id, task);
+
+            console.log(task);
             hideModal();
         };
 
@@ -153,5 +152,7 @@ on the transperent canvas
                 }
             );
         };
+
     });
+
 })();

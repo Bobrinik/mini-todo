@@ -13,7 +13,7 @@ const router = express.Router();
 
 // User should be registered to access this route
 router.route('/')
-    //POST: api/task- we are creating a task
+    //POST: api/tasks - we are creating a task
     .post(passport.authenticate('jwt', { session: false }), (req, res) => {
         console.log("Reached");
         service.createTask(req.user.id, req.body, (err, task) => {
@@ -33,7 +33,7 @@ router.route('/')
     });
 
 router.route('/')
-    //GET: api/task/:userId - we are returning all of the tasks associated to a userId
+    //GET: api/tasks/:userId - we are returning all of the tasks associated to a userId
     .get(passport.authenticate('jwt', { session: false }), (req, res) => {
         service.getMyTasks(req.user.id, (err, task) => {
             if (err) {

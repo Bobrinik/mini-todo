@@ -51,7 +51,7 @@ function updateTask(id, taskid, options, callback) {
             callback(err);
         }
         else {
-            if (task.belongs == id) {
+            if (task.owner == id) {
                 Object.keys(options).forEach((key) => {
                     if (updateableFields.includes(key)) {
                         task[key] = options[key];
@@ -61,6 +61,9 @@ function updateTask(id, taskid, options, callback) {
 
                 if (changed) {
                     task.save(callback);
+                }
+                else{
+                    callback("done", null);
                 }
             }
             else {

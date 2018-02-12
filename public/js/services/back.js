@@ -14,6 +14,10 @@ angular.module("app")
                 return $http.post('/api/tasks', body, { headers: { 'Authorization': "Bearer " + token } });
             },
 
+            updateTask: function (token, taskId, body) {
+                return $http.put('/api/tasks/' + taskId, body, { headers: { 'Authorization': "Bearer " + token } });
+            },
+            
             deleteTask: function (token, taskId) {
                 console.log(taskId);
                 return $http.delete('/api/tasks/' + taskId, { headers: { 'Authorization': "Bearer " + token } });

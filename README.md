@@ -31,6 +31,7 @@ $ npm start
 [X] Add graph to the right of the task list
 [] I need to connect tasks together
     - I need to figure out how to connect tasks together
+[] Update graph after we have updated the task
 [] Remove tasks
 [] Make the app somewhat beautiful
 [] Profit out of the basic layout

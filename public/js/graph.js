@@ -1,7 +1,6 @@
 
 var myGraph = (function () {
     // We are finding size to fit exactly to the the right of the task list
-    let viewport_w = document.body.clientWidth;
     let tasks_width = document.getElementById("myTasks").clientWidth;
     let w = viewport_w - tasks_width - 20;
     let h = document.body.clientHeight;
@@ -176,7 +175,7 @@ var myGraph = (function () {
     }
 
     function updateSimulation() {
-        updateGraph()
+        updateGraph();
 
         simulation.nodes(nodes).on('tick', () => {
             nodeElements
@@ -209,8 +208,21 @@ var myGraph = (function () {
         // add remove logic
         updateSimulation()
     }
+
+    // TODO: We are just updating the label and not other properties
+    function update(nodeId, label){
+        nodes.forEach(node =>{
+            if(node.id == nodeId){
+                node.label = label;
+                console.log("found");
+            }
+        });
+        updateSimulation();
+    }
+
     return {
         add: add,
-        remove: remove
+        remove: remove,
+        update: update
     };
 })();

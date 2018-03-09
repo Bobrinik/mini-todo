@@ -125,9 +125,13 @@ on the transperent canvas
          */
         $scope.updateTask = function () {
             let task = $scope.task_to_modify;
-            taskHandler.updateTask(token, task._id, task);
-
-            console.log(task);
+            taskHandler.updateTask(token, task._id, task).then(
+                function () {
+                    myGraph.update(task._id, task.name);
+                },
+                function () {
+                    alert("Update failed for some reason");
+                });
             hideModal();
         };
 
